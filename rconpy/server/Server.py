@@ -7,10 +7,8 @@ from threading import Thread
 
 class Server(Thread):
     address = None
-    socket = None
-    connection = None
-    clientAddress = None
     password = None
+    socket = None
 
     def __init__(self, address, password):
         super().__init__()
@@ -47,22 +45,22 @@ class Server(Thread):
         print(packet.body)
         return packet.buffer
 
-    def handle(self, data):
+    def handle(self, data, connection, address):
         type = int.from_bytes(data[8:11], "little")
         if type == AuthPacket.type:
-            self.socket.sendBuffer(self.handleAuthPacket(data), self.connection)
+            self.socket.sendBuffer(self.handleAuthPacket(data), connection)
         elif type == ExecCommandPacket.type:
-            self.socket.sendBuffer(self.handleExecCommandPacket(data), self.connection)
+            self.socket.sendBuffer(self.handleExecCommandPacket(data), connection)
         else:
             raise Exception(f"Received unknown packet type: {str(type)}")
         
     def run(self):
         self.socket = ServerSocket(self.address)
         while True:
-            self.connection, self.clientAddress = self.socket.socket.accept()
+            connection, clientAddress = self.socket.socket.accept()
             while True:
-                data = self.socket.receiveBuffer(self.connection)
+                data = self.socket.receiveBuffer(connection)
                 if data:
-                    self.handle(data)
+                    self.handle(data, connection, address)
                 else:
                     break
