@@ -15,7 +15,10 @@ class ServerSocket:
         self.socket.listen(1)
        
     def receiveBuffer(self, connection):
-        return connection.recv(1446)
+        try:
+            return connection.recv(1446)
+        except:
+            return b""
           
     def sendBuffer(self, buffer, connection):
         return connection.send(buffer)
