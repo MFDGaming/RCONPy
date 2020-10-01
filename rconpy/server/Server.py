@@ -57,7 +57,7 @@ class Server(Thread):
         elif type == ExecCommandPacket.type:
             self.socket.sendBuffer(self.handleExecCommandPacket(data, connection, address), connection)
         else:
-            raise Exception(f"Received unknown packet type: {str(type)}")
+            print(f"Received unknown packet type: {str(type)}")
         
     def run(self):
         self.socket = ServerSocket(self.address)
