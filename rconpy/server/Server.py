@@ -66,6 +66,6 @@ class Server(Thread):
             while True:
                 data = self.socket.receiveBuffer(connection)
                 if data:
-                    self.handle(data, connection, address)
+                    self.handle(data, connection, clientAddress)
                 else:
                     break
