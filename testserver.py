@@ -3,7 +3,7 @@ from rconpy.server.ServerInterface import ServerInterface
 
 class TestServer(ServerInterface):
     def __init__(self):
-        Server(("0.0.0.0", 25565), "12345", self)
+        Server(("0.0.0.0", 25575), "12345", self)
 
     def onOpenConnection(self, address):
         print("Awaiting RCON connection from " + address[0] + ":" + str(address[1]))
